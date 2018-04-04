@@ -1,9 +1,5 @@
-function Cards() {}
-function Cards(companyName, value) {
-      slef.companyName = companyName;
+function Card(companyName, value) {
+      var self = this;
+      self.companyName = companyName;
       self.value = value;
-      
-  }
-
-  
-  Cards.prototype.ShuffleCards = function(){};
+  };  

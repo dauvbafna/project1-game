@@ -38,11 +38,11 @@ function main() {
 
   function buildGameScreen() {
     game = new Game(mainContentElement);
-    //game.start();
     game.onEnded(function() {
       gameEnded();
     });
     game.build();
+    game.start();
   };
 
   function destroyGameScreen() {

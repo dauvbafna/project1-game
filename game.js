@@ -4,14 +4,18 @@ function Game(parentElement) {
   self.callback = null;
   self.parentElement = parentElement;
   self.gameoverButtonElement = null;
-  self.playerNetworth = 0; 
   self.company1 = new Company ('crazycompany1', 100);
   self.company2 = new Company ('crazycompany2', 150);
+  self.player = new Player ('Player1', 10000, 0, 0);
   self.cardsA = [];
   self.cardsB = [];
+  self.playerNetworth = 0; 
+  self.isChecked = false;
+
   self.turncardsA =[];
   self.turncardsB =[];
-  self.player = new Player ('Player1', 10000, 0, 0);
+  self.turnInvestment = 0;
+
   self.playercardAOneElement= null;
   self.playercardATwoElement= null;
   self.botcardAOneElement= null;
@@ -20,8 +24,10 @@ function Game(parentElement) {
   self.playercardBTwoElement= null;
   self.botcardBOneElement= null;
   self.botcardBTwoElement= null;
+
   self.currentpriceAElement= null;
   self.currentpriceBElement= null;
+
   self.buyInput = [];
   self.buyformAElement= null;
   self.buyformBElement= null;
@@ -134,21 +140,22 @@ Game.prototype.build = function() {
   self.gameoverButtonElement = self.gameScreenElement.querySelector(".gameover-btn");
   self.gameoverButtonElement.addEventListener("click", self.callback);
   
-  
+  self.setupBinding();
 };
+
 Game.prototype.createCards = function(){
   var self= this;
-for (var i =-25; i<=25; i+=5){ 
+  for (var i =-25; i<=25; i+=5){ 
   if(i!== 0){
     var newCards = new Card("companyA", i);
     self.cardsA.push(newCards);
     };
   };
 
-for (var i =-25; i<=25; i+=5){ 
-    if(i!== 0){
-    var newCards = new Card("companyB", i);
-    self.cardsB.push(newCards);
+  for (var i =-25; i<=25; i+=5){ 
+      if(i!== 0){
+      var newCards = new Card("companyB", i);
+      self.cardsB.push(newCards);
     };
   };
 
@@ -165,20 +172,100 @@ Game.prototype.destroy = function() {
   var self = this;
   self.gameScreenElement.remove();
   self.gameoverButtonElement.removeEventListener("click", self.callback);
+  self.confirmButtonElement.removeEventListener('click',  self.handleConfirmClick);
+  self.nextButtonElement.removeEventListener('click',  self.handleNextClick);
 };
 
 Game.prototype.shuffle = function(array) {
-  var counter = array.length;
-  while (counter > 0) {
-      var index = Math.floor(Math.random() * counter);
-      counter--;
+    var counter = array.length;
+    while (counter > 0) {
+        var index = Math.floor(Math.random() * counter);
+        counter--;
 
-      var temp = array[counter];
-      array[counter] = array[index];
-      array[index] = temp;
-  };
-  return array;
+        var temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    };
+    return array;
 };
+
+
+Game.prototype.setupBinding = function () {
+  var self = this;
+
+  self.handleConfirmClick = function (event){
+    console.log('confirm');
+    self.checkBuy();
+  }
+
+  self.handleNextClick = function (event){
+    console.log('next');
+    if(self.isChecked == false){
+      alert("please press the confirm button first after buying some stocks");
+    }
+    else{
+      self.updateCurrentPrices();
+    };
+  };
+  
+  self.confirmButtonElement.addEventListener('click',  self.handleConfirmClick);
+  self.nextButtonElement.addEventListener('click',  self.handleNextClick);
+}
+
+Game.prototype.revealBotCards = function (){
+  // function to replace $ with bot cards 
+  var self = this;
+  self.botcardAOneElement.innerText = self.turncardsA[2].value;
+  self.botcardATwoElement.innerText = self.turncardsA[3].value;
+  self.botcardBOneElement.innerText = self.turncardsB[2].value;
+  self.botcardBTwoElement.innerText = self.turncardsB[3].value;
+}
+
+Game.prototype.checkBuy = function(){
+  // function to check total investment value less than current cash
+  var self = this;
+  self.turnInvestment = (self.buyInput[0].value * self.company1.value) + (self.buyInput[1].value * self.company2.value);
+  if(self.turnInvestment > self.player.money){
+    alert("Are you tryig to buy the world ? Try lower quantitites");
+  }
+  else{
+    self.revealBotCards();
+    self.isChecked = true;
+
+    var newMoney = self.player.money - self.turnInvestment;
+    var newstockA = self.player.stockA + self.buyInput[0].value;
+    var newstockB = self.player.stockB + self.buyInput[1].value;
+    console.log(newMoney);
+    console.log(newstockA);
+    console.log(newstockB);
+
+    self.player.update(newMoney,newstockA,newstockB);
+    self.playerCashElement.innerText = newMoney;
+  }
+
+}
+
+Game.prototype.updateCurrentPrices = function (){
+  //function to add all cards and update the current prices of all companies 
+  var self = this;
+  var turnCardSumA = 0;
+  var turnCardSumB = 0;
+
+  for(var i =0; i<self.turncardsA.length; i++){
+    turnCardSumA += self.turncardsA[i].value;
+    turnCardSumB += self.turncardsB[i].value;
+  };
+  
+  var marketvalueA = self.company1.value + turnCardSumA;
+  var marketvalueB = self.company2.value + turnCardSumB;
+
+  self.company1.update(marketvalueA);
+  self.company2.update(marketvalueB); 
+
+  self.currentpriceAElement.innerText = marketvalueA;
+  self.currentpriceBElement.innerText = marketvalueB;
+
+}
 
 Game.prototype.nextTurn = function() {
   var self = this;
@@ -191,10 +278,10 @@ Game.prototype.nextTurn = function() {
     self.turncardsB.push(self.cardsB[i]);
   }
 
-  self.botcardAOneElement.innerText = "?";
-  self.botcardATwoElement.innerText = "?";
-  self.botcardBOneElement.innerText = "?";
-  self.botcardBTwoElement.innerText = "?";
+  self.botcardAOneElement.innerText = "$";
+  self.botcardATwoElement.innerText = "$";
+  self.botcardBOneElement.innerText = "$";
+  self.botcardBTwoElement.innerText = "$";
 
   self.playercardAOneElement.innerText = self.turncardsA[0].value;
   self.playercardATwoElement.innerText = self.turncardsA[1].value;
@@ -202,42 +289,12 @@ Game.prototype.nextTurn = function() {
   self.playercardBTwoElement.innerText = self.turncardsB[1].value;
 
   self.buyInput = document.querySelectorAll("input");
-  self.buyformAElement = self.buyInput[0];
-  self.buyformBElement = self.buyInput[1];
+  // self.buyformAElement = self.buyInput[0];
+  // self.buyformBElement = self.buyInput[1];
+
+};
   
-  self.handleConfirmClick = function (event){
-
-
-  };
-  
-  Game.prototype.checkBuy = function(){
-    // function to check total investment value less than current cash 
-  }
-
-  Game.prototype.updatePlayer = function(){
-    // function to update player stock holdings and reduce cash by the investment value
-  }
-
-  self.handleNextClick = function (event){
-    
-  };
-
-  Game.prototype.revealBotCards = function (){
-    // function to replace ? with bot cards 
-  }
-
-  Game.prototype.updateCurrentPrices = function (){
-    //function to add all cards and update the current prices of all companies 
-  }
 
 
 
-  self.confirmButtonElement.addEventListener('click',  self.handleConfirmClick);
-  self.nextButtonElement.addEventListener('click',  self.handleNextClick);
-
-
-
-  cosole.log("Stop here ");
-
-}
 

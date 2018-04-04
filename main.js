@@ -73,4 +73,6 @@ function main() {
   // ------------------------- START APP -------------------------
   buildTitleScreen();
 };
+
+
 window.addEventListener("load", main);

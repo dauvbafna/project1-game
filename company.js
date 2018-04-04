@@ -1,7 +1,11 @@
 
-function Company (name, defaultValue){
+function Company (name, initialValue){
     var self =this;
-    this.name = name;
-    this.defaultValue = defaultValue;
+    self.name = name;
+    self.value = initialValue;
 };
 
+Company.prototype.update = function (value) {
+    var self = this;
+    self.value = value;
+}

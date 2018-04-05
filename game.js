@@ -49,110 +49,209 @@ Game.prototype.onEnded = function(cb) {
 
 Game.prototype.build = function() {
   var self = this;
-  self.gameScreenElement = createHtml(`<div class="game-screen">
-  <div class = "round">
-      <span class>Round:</span>
-      <span class="round-number">0</span>
-  </div>
-  <div class="company1">
-  <p class="company-details">
-  <span class="name">Company1</span>
-  <span class="current-value">Current value:</span>
-  <span class="market-priceA">100</span>
-  </p>
-  
-  <div class="player-cards">
-  <p>Your cards</p>
-  <span class="p-cardA1">0</span>
-  <span class="p-cardA2">0</span>
-  </div>
-  
-  <div class="bot-cards">
-  <p>Bot cards</p>
-  <span class="b-cardA1">$</span>
-  <span class="b-cardA2">$</span>
-  </div>
-  
-  <form class="buy-a">
-  <div>
-  <label for="company1Qty">Buy:</label>
-  <input type="number" id="c1Qty">
-  </div>
-  </form>
-  
-  <div class="stock-holding">
-    <span>Stock holding :</span>
-    <span class="stock-qty-a">0</span>
-  </div>
-  
-  
-  </div>
-  <hr>
-  
-<div class="company2">
-   <p class="company-details">
-      <span class="name">Company2</span>
-      <span class="current-value">Current value:</span>
-      <span class="market-priceB">150</span>
-    </p>
-  
-  <div class = "player-cards">
-    <p>Your cards</p>
-      <span class ="p-cardB1">0</span>
-      <span class ="p-cardB2">0</span>
-  </div>
-  
-  <div class = "bot-cards">
-    <p>Bot cards</p>
-      <span class ="b-cardB1">$</span>
-      <span class ="b-cardB2">$</span>
-  </div>
-  
-  <form class ="buy-b">
-   <div>
-     <label for="company2Qty">Buy:</label>
-     <input type="number" id="c2Qty">
-    </div>
-  </form>
+  self.gameScreenElement = createHtml(`  <div class="game-screen">
+      <div class="card">
+          <div class="card-body text-center">
+              <div class = "round">
+                <span>Round</span>&nbsp;<span class = "round-number">0</span>
+              </div>
+          </div>
+      </div>
+    
+      <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" >
+          <li class="nav-item">
+            <a class="nav-link active" id="p1-tab" data-toggle="tab" href="#p1" role="tab" aria-controls="p1" aria-selected="true">Player 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="p2-tab" data-toggle="tab" href="#p2" role="tab" aria-controls="p2" aria-selected="false">Player 2</a>
+          </li>
+      </ul>
+      
+      <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="p1" role="tabpanel" aria-labelledby="p1-tab">
+              <div class="card"> 
+                  <div class="card-header">
+                      <div class="company1">
+                          <p class="company-details">
+                              <center><span class="name">Company1</span>&nbsp;&nbsp;&nbsp;
+                              <span class="current-value">Current value:</span>
+                              <span class="market-priceA">100</span>
+                              </center>
+                          </p>
+                      </div>
+                  </div>
+                  <div class="card-body text-center">
+                        <h4>Your cards</h4>
+                        <div class="row">
+                            <div class="col-6 col-sm-6">
+                              <div class="card">
+                                <div class="card-body">      
+                                      <div class="player-cards">
+                                        <span class="p-cardA1">0</span>
+                                      </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6 col-sm-6">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="player-cards">          
+                                        <span class="p-cardA2">0</span>
+                                      </div>       
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
-  <div class="stock-holding">
-      <span>Stock holding :</span>
-      <span class="stock-qty-b">0</span>
-  </div>
-  
-</div>  
-  <hr>
-  <div class = "player-status">
-  <span>Cash balance - </span>
-  <span class ="player-cash" >10000</span>
-  </div>
-  
-  <button class="confirm-btn">Confirm</button>
-  <button class="next-btn">Next</button>
-  <button class="gameover-btn">Game Over</button>
-  
+                          <h4>Bot cards</h4>
+                          <div class="row">
+                              <div class="col-6 col-sm-6">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="bot-cards">
+                                      <span class="b-cardA1">$</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-6">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="bot-cards">
+                                      <span class="b-cardA2">$</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+                          </div>
+
+                          <div class="card-footer text-center">
+                              <form class="buy-a">
+                                  <div>
+                                  <label for="company1Qty">Buy:</label>
+                                  <input type="number" id="c1Qty" placeholder="Quantity" class="quantity-box-daaamn">
+                                  </div>
+                                  </form>
+
+                                  <div class="stock-holding">
+                                      <span>Stock holding :</span>
+                                      <span class="stock-qty-a">0</span>
+                                  </div>
+                           </div>
+                  </div>
+                  <br>
+                  <div class="card mb"> 
+                      <div class="card-header">
+                          <div class="company2">
+                              <p class="company-details">
+                                  <center><span class="name">Company2</span>&nbsp;&nbsp;&nbsp;
+                                  <span class="current-value">Current value:</span>
+                                  <span class="market-priceB">150</span>
+                                  </center>
+                              </p>
+                          </div>
+                      </div>
+                      <div class="card-body text-center">
+                            <h4>Your cards</h4>
+                            <div class="row">
+                                <div class="col-6 col-sm-6">
+                                  <div class="card">
+                                    <div class="card-body">      
+                                          <div class="player-cards">
+                                            <span class="p-cardB1">0</span>
+                                          </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-6 col-sm-6">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="player-cards">          
+                                            <span class="p-cardB2">0</span>
+                                          </div>       
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <h4>Bot cards</h4>
+                              <div class="row">
+                                  <div class="col-6 col-sm-6">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <div class="bot-cards">
+                                          <span class="b-cardB1">$</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-6 col-sm-6">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <div class="bot-cards">
+                                          <span class="b-cardB2">$</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  </div>
+                              </div>
+    
+                              <div class="card-footer text-center">
+                                  <form class="buy-b">
+                                      <div>
+                                      <label for="company2Qty">Buy:</label>
+                                      <input type="number" id="c2Qty" placeholder="Quantity" class="input-box">
+                                      </div>
+                                      </form>
+    
+                                      <div class="stock-holding">
+                                          <span>Stock holding :</span>
+                                          <span class="stock-qty-b">0</span>
+                                      </div>
+                               </div>
+                          </div>
+
+                          <div class="card"> 
+                              <div class="card-body text-center tofloat">
+                                  <div class = "player-status">
+                                      <h5>Cash Balance</h5>
+                                      <span class ="player-cash" >10000</span>
+                                  </div>
+                                    
+                                    <div class = "col-md-12">
+                                    <button class="confirm-btn btn btn-primary btn-sm ">Confirm</button>
+                                    <button class="next-btn btn btn-primary btn-sm ">Next</button>
+                                    <button class="gameover-btn btn btn-primary btn-sm ">Game Over</button>
+                                    </div>
+                              
+                        </div>
+                </div>
+        </div>
+    </div>
   </div>`);
   
-  self.roundElement = self.gameScreenElement.querySelector ('.round .round-number');
+  self.roundElement = self.gameScreenElement.querySelector ('.round-number');
 
-  self.playercardAOneElement = self.gameScreenElement.querySelector('.company1 .player-cards .p-cardA1');
-  self.playercardATwoElement = self.gameScreenElement.querySelector('.company1 .player-cards .p-cardA2');
-  self.botcardAOneElement = self.gameScreenElement.querySelector('.company1 .bot-cards .b-cardA1');
-  self.botcardATwoElement = self.gameScreenElement.querySelector('.company1 .bot-cards .b-cardA2');
+  self.playercardAOneElement = self.gameScreenElement.querySelector('.p-cardA1');
+  self.playercardATwoElement = self.gameScreenElement.querySelector('.p-cardA2');
+  self.botcardAOneElement = self.gameScreenElement.querySelector('.b-cardA1');
+  self.botcardATwoElement = self.gameScreenElement.querySelector('.b-cardA2');
   
-  self.playercardBOneElement = self.gameScreenElement.querySelector('.company2 .player-cards .p-cardB1');
-  self.playercardBTwoElement = self.gameScreenElement.querySelector('.company2 .player-cards .p-cardB2');
-  self.botcardBOneElement = self.gameScreenElement.querySelector('.company2 .bot-cards .b-cardB1');
-  self.botcardBTwoElement = self.gameScreenElement.querySelector('.company2 .bot-cards .b-cardB2');
+  self.playercardBOneElement = self.gameScreenElement.querySelector('.p-cardB1');
+  self.playercardBTwoElement = self.gameScreenElement.querySelector('.p-cardB2');
+  self.botcardBOneElement = self.gameScreenElement.querySelector('.b-cardB1');
+  self.botcardBTwoElement = self.gameScreenElement.querySelector('.b-cardB2');
   
-  self.currentpriceAElement = self.gameScreenElement.querySelector('.company1 .market-priceA');
-  self.currentpriceBElement = self.gameScreenElement.querySelector('.company2 .market-priceB');
+  self.currentpriceAElement = self.gameScreenElement.querySelector('.market-priceA');
+  self.currentpriceBElement = self.gameScreenElement.querySelector('.market-priceB');
 
-  self.stockAElement = self.gameScreenElement.querySelector('.company1 .stock-holding .stock-qty-a');;
-  self.stockBElement = self.gameScreenElement.querySelector('.company2 .stock-holding .stock-qty-b');;
+  self.stockAElement = self.gameScreenElement.querySelector('.stock-qty-a');;
+  self.stockBElement = self.gameScreenElement.querySelector('.stock-qty-b');;
   
-  self.buyformAElement = self.gameScreenElement.querySelector('.company1 .buy-a');
-  self.buyformBElement = self.gameScreenElement.querySelector('.company2 .buy-b');
+  self.buyformAElement = self.gameScreenElement.querySelector('.buy-a');
+  self.buyformBElement = self.gameScreenElement.querySelector('.buy-b');
   
   self.playerCashElement = self.gameScreenElement.querySelector('.player-status .player-cash');
   

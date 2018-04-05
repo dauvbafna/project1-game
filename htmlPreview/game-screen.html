@@ -5,81 +5,103 @@
   <title>Stock-exchange</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 
   <div id="main-content">
     <div class="game-screen">
-
-        <div class="company1">
-            <p class="company-details">
-            <span class="name">Company1</span>
-            <span class="current-value">Current value:</span>
-            <span class="market price">5</span>
-            </p>
-
-              <div class = "player-cards">
-                    <p>Your cards</p>
-                    <span class ="p-card1">0</span>
-                    <span class ="p-card2">0</span>
+      <div class = "round">
+          <div class="card">
+              <div class="card-body text-center">
+                <span>Round</span><span>0</span>
               </div>
-                
-              <div class = "bot-cards">
-                    <p>Bot cards</p>
-                    <span class ="b-card1">?</span>
-                    <span class ="b-card2">?</span>
-              </div>
-
-              
-                  <form>
-                      <div>
-                        <label for="company1Qty">Buy:</label>
-                        <input type="number" id="c1Qty">
-                      </div>
-                  </form>
-
           </div>
-<hr>
-
-       <div class="company2">
-              <p class="company-details">
-              <span class="name">Company2</span>
-              <span class="current-value">Current value:</span>
-              <span class="market price">10</span>
-              </p>
-
-            <div class = "player-cards">
-                <p>Your cards</p>
-                <span class ="p-card1">0</span>
-                <span class ="p-card2">0</span>
-            </div>
-            
-            <div class = "bot-cards">
-                <p>Bot cards</p>
-                <span class ="p-card1">?</span>
-                <span class ="p-card2">?</span>
-            </div>
-
-            <form>
-                <div>
-                  <label for="company2Qty">Buy:</label>
-                  <input type="number" id="c2Qty">
-                </div>
-            </form>
-
-        </div>  
-<hr>
-        <div class ="player-cash">
-          <span>Cash balance - </span>
-          <span>1000</span>
-        </div>
-
-        <button class= "Confirm">Confirm</button>
-        <button class= "Next">Next</button>
+      </div>
+    
+  
+      <div class="company1">
+      <p class="company-details">
+      <span class="name">Company1</span>
+      <span class="current-value">Current value:</span>
+      <span class="market-priceA">100</span>
+      </p>
       
-    </div>
+      <div class="player-cards">
+      <p>Your cards</p>
+      <span class="p-cardA1">0</span>
+      <span class="p-cardA2">0</span>
+      </div>
+      
+      <div class="bot-cards">
+      <p>Bot cards</p>
+      <span class="b-cardA1">?</span>
+      <span class="b-cardA2">?</span>
+      </div>
+      
+      <form class="buy-a">
+      <div>
+      <label for="company1Qty">Buy:</label>
+      <input type="number" id="c1Qty">
+      </div>
+      </form>
+      
+      <div class="stock-holding">
+        <span>Stock holding :</span>
+        <span class="stock-qty-a">0</span>
+      </div>
+      
+      
+      </div>
+      <hr>
+      
+    <div class="company2">
+       <p class="company-details">
+          <span class="name">Company2</span>
+          <span class="current-value">Current value:</span>
+          <span class="market-priceB">150</span>
+        </p>
+      
+      <div class = "player-cards">
+        <p>Your cards</p>
+          <span class ="p-cardB1">0</span>
+          <span class ="p-cardB2">0</span>
+      </div>
+      
+      <div class = "bot-cards">
+        <p>Bot cards</p>
+          <span class ="b-cardB1">?</span>
+          <span class ="b-cardB2">?</span>
+      </div>
+      
+      <form class ="buy-b">
+       <div>
+         <label for="company2Qty">Buy:</label>
+         <input type="number" id="c2Qty">
+        </div>
+      </form>
+
+      <div class="stock-holding">
+          <span>Stock holding :</span>
+          <span class="stock-qty-b">0</span>
+      </div>
+      
+    </div>  
+      <hr>
+      <div class = "player-status">
+      <span>Cash balance - </span>
+      <span class ="player-cash" >10000</span>
+      </div>
+      
+      <button class="confirm-btn">Confirm</button>
+      <button class="next-btn">Next</button>
+      <button class="gameover-btn">Game Over</button>
+      
+      </div>
   </div>
 
 </body>

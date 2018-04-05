@@ -57,11 +57,14 @@ function main() {
     buildGameScreen();
   };
   function buildGameOverScreen() {
+    var finalMoney = game.playerNetworth;
     gameOverScreenElement = createHtml(`<div class = "gameover-screen">
     <h1>Game over</h1>
+    <span>Your networth: </span>
+    <span class = "networth">` + finalMoney + `</span>
     <p>Greed, for lack of a better word, is good !!</p>
     <button>Restart Game</button>
-  </div> `);
+    </div> `);
     mainContentElement.appendChild(gameOverScreenElement);
     restartGameButtonElement = gameOverScreenElement.querySelector("button");
     restartGameButtonElement.addEventListener("click", handleRestartClick);

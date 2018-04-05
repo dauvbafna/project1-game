@@ -4,6 +4,8 @@ function Game(parentElement) {
   self.callback = null;
   self.parentElement = parentElement;
   self.gameoverButtonElement = null;
+  self.round = 0;
+  self.roundElement = null;
   self.company1 = new Company ('crazycompany1', 100);
   self.company2 = new Company ('crazycompany2', 150);
   self.player = new Player ('Player1', 10000, 0, 0);
@@ -28,6 +30,9 @@ function Game(parentElement) {
   self.currentpriceAElement= null;
   self.currentpriceBElement= null;
 
+  self.stockAElement = null;
+  self.stockBElement = null;
+
   self.buyInput = [];
   self.buyformAElement= null;
   self.buyformBElement= null;
@@ -45,6 +50,10 @@ Game.prototype.onEnded = function(cb) {
 Game.prototype.build = function() {
   var self = this;
   self.gameScreenElement = createHtml(`<div class="game-screen">
+  <div class = "round">
+      <span class>Round:</span>
+      <span class="round-number">0</span>
+  </div>
   <div class="company1">
   <p class="company-details">
   <span class="name">Company1</span>
@@ -52,57 +61,66 @@ Game.prototype.build = function() {
   <span class="market-priceA">100</span>
   </p>
   
-  <div class = "player-cards">
+  <div class="player-cards">
   <p>Your cards</p>
-  <span class ="p-cardA1">0</span>
-  <span class ="p-cardA2">0</span>
+  <span class="p-cardA1">0</span>
+  <span class="p-cardA2">0</span>
   </div>
   
-  <div class = "bot-cards">
+  <div class="bot-cards">
   <p>Bot cards</p>
-  <span class ="b-cardA1">?</span>
-  <span class ="b-cardA2">?</span>
+  <span class="b-cardA1">$</span>
+  <span class="b-cardA2">$</span>
   </div>
   
-  <form class ="buy-a">
+  <form class="buy-a">
   <div>
   <label for="company1Qty">Buy:</label>
   <input type="number" id="c1Qty">
   </div>
   </form>
   
+  <div class="stock-holding">
+    <span>Stock holding :</span>
+    <span class="stock-qty-a">0</span>
+  </div>
   
   
   </div>
   <hr>
   
-  <div class="company2">
-  <p class="company-details">
-  <span class="name">Company2</span>
-  <span class="current-value">Current value:</span>
-  <span class="market-priceB">150</span>
-  </p>
+<div class="company2">
+   <p class="company-details">
+      <span class="name">Company2</span>
+      <span class="current-value">Current value:</span>
+      <span class="market-priceB">150</span>
+    </p>
   
   <div class = "player-cards">
-  <p>Your cards</p>
-  <span class ="p-cardB1">0</span>
-  <span class ="p-cardB2">0</span>
+    <p>Your cards</p>
+      <span class ="p-cardB1">0</span>
+      <span class ="p-cardB2">0</span>
   </div>
   
   <div class = "bot-cards">
-  <p>Bot cards</p>
-  <span class ="b-cardB1">?</span>
-  <span class ="b-cardB2">?</span>
+    <p>Bot cards</p>
+      <span class ="b-cardB1">$</span>
+      <span class ="b-cardB2">$</span>
   </div>
   
   <form class ="buy-b">
-  <div>
-  <label for="company2Qty">Buy:</label>
-  <input type="number" id="c2Qty">
-  </div>
+   <div>
+     <label for="company2Qty">Buy:</label>
+     <input type="number" id="c2Qty">
+    </div>
   </form>
+
+  <div class="stock-holding">
+      <span>Stock holding :</span>
+      <span class="stock-qty-b">0</span>
+  </div>
   
-  </div>  
+</div>  
   <hr>
   <div class = "player-status">
   <span>Cash balance - </span>
@@ -115,6 +133,8 @@ Game.prototype.build = function() {
   
   </div>`);
   
+  self.roundElement = self.gameScreenElement.querySelector ('.round .round-number');
+
   self.playercardAOneElement = self.gameScreenElement.querySelector('.company1 .player-cards .p-cardA1');
   self.playercardATwoElement = self.gameScreenElement.querySelector('.company1 .player-cards .p-cardA2');
   self.botcardAOneElement = self.gameScreenElement.querySelector('.company1 .bot-cards .b-cardA1');
@@ -127,6 +147,9 @@ Game.prototype.build = function() {
   
   self.currentpriceAElement = self.gameScreenElement.querySelector('.company1 .market-priceA');
   self.currentpriceBElement = self.gameScreenElement.querySelector('.company2 .market-priceB');
+
+  self.stockAElement = self.gameScreenElement.querySelector('.company1 .stock-holding .stock-qty-a');;
+  self.stockBElement = self.gameScreenElement.querySelector('.company2 .stock-holding .stock-qty-b');;
   
   self.buyformAElement = self.gameScreenElement.querySelector('.company1 .buy-a');
   self.buyformBElement = self.gameScreenElement.querySelector('.company2 .buy-b');
@@ -170,6 +193,8 @@ Game.prototype.start = function() {
 
 Game.prototype.destroy = function() {
   var self = this;
+  self.calcNetWorth();
+  console.log(self.playerNetworth);
   self.gameScreenElement.remove();
   self.gameoverButtonElement.removeEventListener("click", self.callback);
   self.confirmButtonElement.removeEventListener('click',  self.handleConfirmClick);
@@ -199,14 +224,21 @@ Game.prototype.setupBinding = function () {
   }
 
   self.handleNextClick = function (event){
-    console.log('next');
     if(self.isChecked == false){
       alert("please press the confirm button first after buying some stocks");
     }
+    
     else{
+      if(self.round > 1){
+        self.callback();
+      }
+    else{
+      self.round++ ; 
       self.updateCurrentPrices();
+      self.nextTurn();
     };
   };
+}; 
   
   self.confirmButtonElement.addEventListener('click',  self.handleConfirmClick);
   self.nextButtonElement.addEventListener('click',  self.handleNextClick);
@@ -233,14 +265,17 @@ Game.prototype.checkBuy = function(){
     self.isChecked = true;
 
     var newMoney = self.player.money - self.turnInvestment;
-    var newstockA = self.player.stockA + self.buyInput[0].value;
-    var newstockB = self.player.stockB + self.buyInput[1].value;
+    var newstockA = self.player.stockA + Number(self.buyInput[0].value);
+    var newstockB = self.player.stockB + Number(self.buyInput[1].value);
     console.log(newMoney);
     console.log(newstockA);
     console.log(newstockB);
 
     self.player.update(newMoney,newstockA,newstockB);
     self.playerCashElement.innerText = newMoney;
+    self.stockAElement.innerText = newstockA;
+    self.stockBElement.innerText = newstockB;
+    
   }
 
 }
@@ -264,11 +299,15 @@ Game.prototype.updateCurrentPrices = function (){
 
   self.currentpriceAElement.innerText = marketvalueA;
   self.currentpriceBElement.innerText = marketvalueB;
-
 }
+
 
 Game.prototype.nextTurn = function() {
   var self = this;
+  self.roundElement.innerText = self.round + 1;
+  self.isChecked =false;
+  self.turncardsA =[];
+  self.turncardsB =[];
   
   self.shuffle(self.cardsA);
   self.shuffle(self.cardsB);
@@ -289,11 +328,12 @@ Game.prototype.nextTurn = function() {
   self.playercardBTwoElement.innerText = self.turncardsB[1].value;
 
   self.buyInput = document.querySelectorAll("input");
-  // self.buyformAElement = self.buyInput[0];
-  // self.buyformBElement = self.buyInput[1];
-
 };
-  
+
+Game.prototype.calcNetWorth = function (){
+  var self = this;
+  self.playerNetworth = self.player.money + (self.player.stockA * self.company1.value) + (self.player.stockB * self.company2.value);
+};
 
 
 

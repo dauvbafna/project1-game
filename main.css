@@ -45,8 +45,13 @@ input{
   text-align: center;
   position: fixed;
   bottom: 0px;
-  width: 93.5%;
+  width: 97%;
   z-index: 111;
   background:#2D3047;
 }
 
+.title-screen {
+  background-image: url(money-never-sleeps-2_grande.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}

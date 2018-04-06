@@ -4,8 +4,14 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-
 }
+
+.title-screen{
+    background-image: url(money-never-sleeps-2_grande.jpg);
+  
+}
+
+
 .stretch{
 	width: 100%;
 	max-height: 655px;

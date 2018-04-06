@@ -17,9 +17,11 @@ function main() {
   };
   function buildTitleScreen() {
     titleScreenElement = createHtml(`<div class = "title-screen">
-    <h1>Stock-exchange game </h1>
-    <button>Start Game</button>
-  </div> `);
+    <center>
+      <img src="./money-never-sleeps.jpg" alt="img" style="width:100%">
+      <button class="btn btn-primary btn-sm">Start Game</button>
+    </center>
+    </div>  `);
     mainContentElement.appendChild(titleScreenElement);
     startButtonElement = titleScreenElement.querySelector("button");
     startButtonElement.addEventListener("click", handleStartClick);
@@ -59,12 +61,16 @@ function main() {
   function buildGameOverScreen() {
     var finalMoney = game.playerNetworth;
     gameOverScreenElement = createHtml(`<div class = "gameover-screen">
-    <h1>Game over</h1>
-    <span>Your networth: </span>
+    <center>
+    <div class="container">
+      <h1>Game over</h1>
+      <span>Your networth: </span>
     <span class = "networth">` + finalMoney + `</span>
-    <p>Greed, for lack of a better word, is good !!</p>
-    <button>Restart Game</button>
-    </div> `);
+    <img src="./gameoverimage.gif" alt="img" style="width:100%">
+          <button class=" restart btn btn-primary btn-sm" style="margin-top: 10px;"> Restart Game</button>
+        </div>  
+      </center>
+     </div>`);
     mainContentElement.appendChild(gameOverScreenElement);
     restartGameButtonElement = gameOverScreenElement.querySelector("button");
     restartGameButtonElement.addEventListener("click", handleRestartClick);

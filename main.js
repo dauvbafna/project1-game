@@ -20,6 +20,25 @@ function main() {
     <center>
       <img src="./money-never-sleeps.jpg" alt="img" style="width:100%">
       <button class="btn btn-primary btn-sm">Start Game</button>
+      <button type="button" class="btn btn-primary btn-sm btn2" data-toggle="modal" data-target="#instructionModal">Instructions</button>
+      <div class="modal fade" id="instructionModal" tabindex="-1" role="dialog" aria-labelledby="instructionModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="instructionModalLabel">Read Instructions carefully before playing.</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Some crazy intructions what no one would read !!
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  </div>
+</div>
+</div>
+</div>
     </center>
     </div>  `);
     mainContentElement.appendChild(titleScreenElement);

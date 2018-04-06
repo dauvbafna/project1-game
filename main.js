@@ -19,8 +19,9 @@ function main() {
     titleScreenElement = createHtml(`<div class = "title-screen">
     <center>
       <img src="./money-never-sleeps.jpg" alt="img" style="width:100%">
-      <button class="btn btn-primary btn-sm">Start Game</button>
-      <button type="button" class="btn btn-primary btn-sm btn2" data-toggle="modal" data-target="#instructionModal">Instructions</button>
+      <div class = "my-buttons-on-splash" style="position: relative; bottom: 6.5vh;">
+      <button class="btn btn-outline-info btn-lg">Start Game</button>
+      <button type="button" class="btn btn-outline-info btn-lg btn2" data-toggle="modal" data-target="#instructionModal">Instructions</button>
       <div class="modal fade" id="instructionModal" tabindex="-1" role="dialog" aria-labelledby="instructionModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
 <div class="modal-content">
@@ -79,14 +80,14 @@ function main() {
   };
   function buildGameOverScreen() {
     var finalMoney = game.playerNetworth;
-    gameOverScreenElement = createHtml(`<div class = "gameover-screen">
+    gameOverScreenElement = createHtml(`<div class = "gameover-screen" style="background:  black;">
     <center>
     <div class="container">
-      <h1>Game over</h1>
-      <span>Your networth: </span>
-    <span class = "networth">` + finalMoney + `</span>
-    <img src="./gameoverimage.gif" alt="img" style="width:100%">
-          <button class=" restart btn btn-primary btn-sm" style="margin-top: 10px;"> Restart Game</button>
+      <h1 class="display-3" style="color: white;">Game over</h1>
+      <span class="badge badge-info" style="font-size: 20px;">Your networth: </span>
+    <span class = "networth badge badge-success" style="font-size: 20px;">` + finalMoney + `</span>
+    <img src="./gameoverimage.gif" alt="img" style="width:100%; margin-top: 3vh;">
+          <button class=" restart btn btn-info btn-lg" style="margin-top: 10px;"> Restart Game</button>
         </div>  
       </center>
      </div>`);

@@ -49,7 +49,7 @@ Game.prototype.onEnded = function(cb) {
 
 Game.prototype.build = function() {
   var self = this;
-  self.gameScreenElement = createHtml(`  <div class="game-screen">
+  self.gameScreenElement = createHtml(`  <div class="game-screen" style="font-size: 4vh;">
       <div class="card">
           <div class="card-body text-center">
               <div class = "round">
@@ -221,9 +221,9 @@ Game.prototype.build = function() {
                                   </div>
                                     
                                     <div class = "col-md-12">
-                                    <button class="confirm-btn btn btn-primary btn-sm ">Confirm</button>
-                                    <button class="next-btn btn btn-primary btn-sm ">Next</button>
-                                    <button class="gameover-btn btn btn-primary btn-sm ">Game Over</button>
+                                    <button class="confirm-btn btn btn-outline-info btn-lg ">Confirm</button>
+                                    <button class="next-btn btn btn-outline-info btn-lg ">Next</button>
+                                    <button class="gameover-btn btn btn-outline-info btn-lg ">Game Over</button>
                                     </div>
                               
                         </div>
